@@ -1,0 +1,33 @@
+﻿# VASP outputs
+WAVECAR
+CHGCAR
+CHG
+DOSCAR
+PROCAR
+vasprun.xml
+EIGENVAL
+XDATCAR
+OSZICAR
+OUTCAR
+
+# VASP build artifacts
+build/
+*.o
+*.a
+
+# Large/generated files
+*.zip
+*.tar
+*.tgz
+
+# Credentials / SSH
+id_rsa
+id_rsa.pub
+*.pem
+*.key
+authorized_keys
+
+# Python
+__pycache__/
+*.pyc
+.venv/
