@@ -84,16 +84,21 @@ Converged from 9×9×1; every denser mesh stays converged. The 500 eV / 12×12×
 | a0 | 3.5597 Å ≈ 3.56 Å |
 | SOC / magnetism | off / non-magnetic |
 
-## 8. Cost (Anvil `shared`, 8 cores)
+## 8. Computational cost and Slurm provenance
 
-| Series | Job ID | Wall time | CPU eff. | Max memory | Billed SU (`jobsu`) |
-|---|---|---:|---:|---:|---:|
-| ENCUT | 21082428 | 00:01:39 | 84.85 % | 1.33 GB | 0.2200 |
-| k-points | 21084915 | 00:01:38 | 94.39 % | 1.74 GB | 0.2176 |
-| E–a scan | 21084907 | 00:05:37 | 96.66 % | 1.22 GB | 0.7488 |
-| **Total** | | | | | **1.1864** |
+| Calculation | Slurm job | Status | Anvil SUs |
+|---|---:|---|---:|
+| ENCUT convergence | 21082428 | COMPLETED | 0.2200 |
+| Initial duplicate k-point submission | 21084888 | CANCELLED | 0.1664 |
+| Final k-point convergence submission | 21084915 | COMPLETED | 0.2176 |
+| E–a scan | 21084907 | COMPLETED | 0.7488 |
+| **Total J001 resource consumption** | | | **1.3528 SU** |
 
-Billed SU from `jobsu` is authoritative. This is a 3-atom non-magnetic cell, so it says nothing about the cost of a heterostructure candidate.
+The k-point convergence calculations were completed across two Slurm submissions. Job 21084888 was an accidentally duplicated submission and was cancelled after three VASP subjobs had completed. Job 21084915 completed the remaining k-point calculation work used for the final convergence result.
+
+The `jobsu` values are the authoritative Anvil accounting values. Parser-reported core-hours represent VASP execution time and are retained separately for performance analysis.
+
+For the final scientific J001 dataset, the duplicate cancelled submission is not treated as an additional convergence point; its resource consumption is reported separately for transparent provenance.
 
 ## 9. Scope: what J001 does not establish
 
@@ -108,5 +113,16 @@ Billed SU from `jobsu` is authoritative. This is a 3-atom non-magnetic cell, so 
 - [ ] Compare a0 with C2DB once the WTe2 row is verified.
 - [ ] Run spglib on the relaxed E–a `CONTCAR` files.
 - [ ] Optional vacuum test (J001d).
+
+
+## 11. Provenance note
+
+J001 convergence results are reproducible from the recorded Slurm jobs:
+
+- ENCUT: 21082428
+- k-point convergence: 21084888 + 21084915
+- E–a scan: 21084907
+
+The cancelled duplicate submission is retained in the record rather than hidden, because it consumed 0.1664 SU.
 
 **Frozen J001 baseline:** PBE, PAW `W_sv` + `Te`, ENCUT = 500 eV, Γ-centred 12×12×1, a0 = 3.5597 Å.
