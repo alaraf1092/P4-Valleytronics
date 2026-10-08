@@ -115,75 +115,145 @@ For the final scientific J001 dataset, the duplicate cancelled submission is not
 - [ ] Optional vacuum test (J001d).
 
 
-## 11. No-SOC WTe2 Band-Structure Validation
+## 11. No-SOC WTe₂ Band-Structure Validation
 
-A non-spin-polarized, no-SOC electronic-structure calculation was
-performed for the equilibrium WTe2 monolayer using:
+A non-spin-polarized, no-spin–orbit-coupling (no-SOC) band-structure calculation was performed for the equilibrium 2H-WTe₂ monolayer using the converged J001 parameters:
 
-- a0 = 3.5597 Å
-- ENCUT = 500 eV
-- SCF k-mesh = 12×12×1
-- Band path = Γ–K–M–K′–Γ
-- ISPIN = 1
-- SOC = OFF
+- Equilibrium lattice parameter: \(a_0 = 3.5597\) Å
+- Plane-wave cutoff: `ENCUT = 500 eV`
+- SCF k-mesh: \(12\times12\times1\)
+- Spin treatment: `ISPIN = 1` (non-spin-polarized)
+- SOC: OFF
+- Band path: \(\Gamma-K-M-K'-\Gamma\)
 
-The SCF calculation (Slurm job 21193201) converged to the requested
-EDIFF = 1E-6 and produced the converged charge density `CHGCAR`.
-A subsequent non-self-consistent band calculation (Slurm job 21194532)
-used `ICHARG = 11`.
+The SCF calculation (Slurm job `21195493`) converged with `EDIFF = 1E-6` and generated the charge-density file `CHGCAR`. The subsequent non-self-consistent band calculation (Slurm job `21195791`) used `ICHARG = 11`, `LMAXMIX = 4`, `NBANDS = 24`, and `NELMIN = 10`.
 
-### K/K′ Degeneracy Test
+### 11.1 Calculated Band Structure
 
-The explicit valley points were:
+![No-SOC band structure of monolayer WTe₂ along the corrected Γ–K–M–K′–Γ path](no_soc_band_structure2.png)
 
-- K  = (1/3, 1/3, 0)
-- K′ = (2/3, 2/3, 0)
+*Figure 11. Calculated no-SOC band structure of the 2H-WTe₂ monolayer along the corrected \(\Gamma-K-M-K'-\Gamma\) high-symmetry path. The valence-band maximum and conduction-band minimum occur at K along the calculated path.*
 
-The extracted energies were:
+### 11.2 K/K′ Degeneracy Test
 
-| Band | K (eV) | K′ (eV) | |ΔE| (eV) |
-|---:|---:|---:|---:|
-| 13 | -1.040795 | -1.040795 | 0.000000 |
-| 14 | 0.007520 | 0.007520 | 0.000000 |
+The valley points were sampled at:
 
-Therefore:
+- \(K=(1/3,1/3,0)\)
+- \(K'=(2/3,-1/3,0)\)
 
-\[
-\Delta E_{13}(K,K') =
-|E_{13}(K)-E_{13}(K')|
-= 0.000000\ \text{eV}
-\]
+The corrected path passed the checker’s geometric validation. The extracted band-edge results were:
 
-\[
-\Delta E_{14}(K,K') =
-|E_{14}(K)-E_{14}(K')|
-= 0.000000\ \text{eV}
-\]
+| Quantity | Result |
+|---|---:|
+| Valence-band splitting, K versus K′ | 0.000 meV |
+| Conduction-band splitting, K versus K′ | 0.000 meV |
+| Largest K/K′ difference among the lowest 15 states | 0.000 meV |
 
-Within the precision of the extracted eigenvalues, the K and K′ states
-are degenerate in the no-SOC, nonmagnetic WTe2 baseline.
+Within the precision of the extracted eigenvalues, the K and K′ states are degenerate in the no-SOC, nonmagnetic WTe₂ calculation. This is consistent with the expected time-reversal symmetry of the baseline system and indicates that no artificial K/K′ splitting was detected.
 
-This provides the required control calculation for the P4 valley-physics
-workflow: no artificial K/K′ splitting is observed before introducing
-spin–orbit coupling and magnetic proximity effects.
+### 11.3 Band Edges and Valley Offsets
 
-### Resource Usage
+The corrected band calculation yielded the following results:
 
-| Calculation | Slurm job | Wall time | Cores | Anvil SU |
-|---|---:|---:|---:|---:|
-| No-SOC SCF | 21193201 | 00:10:23 | 8 | 1.3848 |
-| No-SOC BAND | 21194532 | 00:01:25 | 8 | 0.1888 |
-| **Subtotal** | | | | **1.5736** |
+| Quantity | Result |
+|---|---:|
+| Direct band gap at K | 1.0491 eV |
+| Valence-band maximum (VBM) | K |
+| \(E_{\mathrm{VB}}(K)-E_{\mathrm{VB}}(\Gamma)\) | +0.4942 eV |
+| Lowest conduction valley away from K/K′ | Q, along Γ–K |
+| \(E_{\mathrm{CB}}(Q)-E_{\mathrm{CB}}(K)\) | +0.2528 eV |
 
-The cumulative documented J001 Anvil usage is now **2.9264 SU**,
-including the earlier convergence, k-point, E–a, SCF, and band
-calculations. The cancelled duplicate k-point submission is included
-because it consumed 0.1664 SU.
+The direct band gap at K is approximately 1.049 eV. The valence-band offset indicates that K lies 0.4942 eV above Γ, while the Q-valley conduction edge lies 0.2528 eV above the conduction-band minimum at K.
 
-### Baseline Result
+These offsets provide useful baseline margins for subsequent heterostructure calculations. The K valley must remain the relevant valence maximum and conduction minimum for K-valley-based functionality to be retained.
 
-$$
-\boxed{\Delta E_{K,K'} = 0\ \text{eV}}
-$$
+The reported 1.0491 eV value is the direct gap at K; it is not asserted to be the global fundamental gap without a separate global band-edge assessment.
 
-within the precision of the extracted no-SOC eigenvalues.
+### 11.4 Band-to-SCF Consistency
+
+The corrected band energies were compared with the corrected SCF eigenvalues at common k-points:
+
+| k-point | Bands compared | Band − SCF differences |
+|---|---|---|
+| K | 12–15 | 0.06, 0.10, 0.11, 0.07 meV |
+| Γ | 12–15 | 0.10, 0.08, 0.07, 0.07 meV |
+
+Both comparisons passed the checker’s consistency test, with all listed differences below 1 meV. This confirms that the corrected band calculation reproduces the corresponding SCF eigenvalues to sub-meV accuracy for the states examined.
+
+### 11.5 Computational Provenance
+
+| Calculation | Slurm job | Status | Wall time | Anvil usage |
+|---|---:|---|---:|---:|
+| Corrected no-SOC SCF (SCF2) | 21195493 | COMPLETED | 00:01:05 | 0.1448 SU |
+| Corrected no-SOC BAND (BAND2) | 21195791 | COMPLETED | 00:01:34 | 0.2088 SU |
+| **Subtotal** | | | | **0.3536 SU** |
+
+The corrected SCF used eight MPI ranks with one thread per rank. The corrected band calculation used the new SCF charge density and the first-Brillouin-zone representation \(K'=(2/3,-1/3,0)\).
+
+### 11.6 Interpretation and Next Step
+
+The corrected no-SOC calculation passes the three required validation checks:
+
+1. The \(\Gamma-K-M-K'-\Gamma\) path is geometrically valid.
+2. The K/K′ valley-edge splitting is zero within the precision of the extracted eigenvalues.
+3. The corrected band eigenvalues agree with the SCF at the tested common k-points to sub-meV accuracy.
+
+The no-SOC, nonmagnetic WTe₂ monolayer therefore provides a validated control baseline for investigating the effects of spin–orbit coupling and magnetic proximity in subsequent P4 calculations.
+
+The next stage will examine WTe₂ with SOC while retaining the same equilibrium structure, allowing changes in the band dispersion and spin splitting to be compared against this no-SOC reference.
+
+
+## 12. Computational Cost and Slurm Provenance
+
+### Complete resource accounting
+
+The following table records all J001-related Anvil jobs whose
+resource usage has been measured.
+
+| Calculation | Slurm job | Status | Anvil SUs |
+|---|---:|---|---:|
+| ENCUT convergence | 21082428 | COMPLETED | 0.2200 |
+| Duplicate k-point submission | 21084888 | CANCELLED | 0.1664 |
+| Final k-point convergence | 21084915 | COMPLETED | 0.2176 |
+| E–a scan | 21084907 | COMPLETED | 0.7488 |
+| Initial SCF attempt | 21192923 | FAILED | 0.0152 |
+| Initial no-SOC SCF | 21193201 | COMPLETED; superseded | 1.3848 |
+| Initial no-SOC BAND | 21194532 | COMPLETED; superseded | 0.1888 |
+| Corrected no-SOC SCF2 | 21195493 | COMPLETED | 0.1448 |
+| Corrected no-SOC BAND2 | 21195791 | COMPLETED | 0.2088 |
+| **Total recorded Anvil usage** | | | **3.2952 SU** |
+
+The failed initial SCF job (21192923) terminated because its
+Slurm script changed to an incorrect working directory. VASP
+could not find INCAR, and no electronic-structure calculation
+was performed in that attempt.
+
+The cancelled k-point job (21084888) consumed 0.1664 SU before
+cancellation. Three VASP subjobs had completed before the duplicate
+submission was cancelled.
+
+The initial SCF and BAND calculations were retained for diagnostic
+comparison. The corrected no-SOC baseline uses SCF2 and BAND2.
+
+### Accepted workflow cost
+
+Excluding the cancelled duplicate submission, the failed initial SCF,
+and the superseded initial SCF/BAND pair, the accepted calculation
+sequence consists of:
+
+| Calculation | Anvil SUs |
+|---|---:|
+| ENCUT convergence | 0.2200 |
+| Final k-point convergence | 0.2176 |
+| E–a scan | 0.7488 |
+| Corrected no-SOC SCF2 | 0.1448 |
+| Corrected no-SOC BAND2 | 0.2088 |
+| **Accepted workflow subtotal** | **1.5400 SU** |
+
+This subtotal represents the accepted convergence, structural, and
+corrected no-SOC electronic-structure workflow. It is distinct from
+the total Anvil usage of 3.2952 SU across all attempts.
+
+The `jobsu` values are used as the authoritative scheduler accounting
+values. Parser-reported core-hours and `seff` CPU efficiency are
+recorded separately as performance metrics.
