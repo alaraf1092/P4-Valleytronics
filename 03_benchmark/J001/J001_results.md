@@ -115,14 +115,75 @@ For the final scientific J001 dataset, the duplicate cancelled submission is not
 - [ ] Optional vacuum test (J001d).
 
 
-## 11. Provenance note
+## 11. No-SOC WTe2 Band-Structure Validation
 
-J001 convergence results are reproducible from the recorded Slurm jobs:
+A non-spin-polarized, no-SOC electronic-structure calculation was
+performed for the equilibrium WTe2 monolayer using:
 
-- ENCUT: 21082428
-- k-point convergence: 21084888 + 21084915
-- E–a scan: 21084907
+- a0 = 3.5597 Å
+- ENCUT = 500 eV
+- SCF k-mesh = 12×12×1
+- Band path = Γ–K–M–K′–Γ
+- ISPIN = 1
+- SOC = OFF
 
-The cancelled duplicate submission is retained in the record rather than hidden, because it consumed 0.1664 SU.
+The SCF calculation (Slurm job 21193201) converged to the requested
+EDIFF = 1E-6 and produced the converged charge density `CHGCAR`.
+A subsequent non-self-consistent band calculation (Slurm job 21194532)
+used `ICHARG = 11`.
 
-**Frozen J001 baseline:** PBE, PAW `W_sv` + `Te`, ENCUT = 500 eV, Γ-centred 12×12×1, a0 = 3.5597 Å.
+### K/K′ Degeneracy Test
+
+The explicit valley points were:
+
+- K  = (1/3, 1/3, 0)
+- K′ = (2/3, 2/3, 0)
+
+The extracted energies were:
+
+| Band | K (eV) | K′ (eV) | |ΔE| (eV) |
+|---:|---:|---:|---:|
+| 13 | -1.040795 | -1.040795 | 0.000000 |
+| 14 | 0.007520 | 0.007520 | 0.000000 |
+
+Therefore:
+
+\[
+\Delta E_{13}(K,K') =
+|E_{13}(K)-E_{13}(K')|
+= 0.000000\ \text{eV}
+\]
+
+\[
+\Delta E_{14}(K,K') =
+|E_{14}(K)-E_{14}(K')|
+= 0.000000\ \text{eV}
+\]
+
+Within the precision of the extracted eigenvalues, the K and K′ states
+are degenerate in the no-SOC, nonmagnetic WTe2 baseline.
+
+This provides the required control calculation for the P4 valley-physics
+workflow: no artificial K/K′ splitting is observed before introducing
+spin–orbit coupling and magnetic proximity effects.
+
+### Resource Usage
+
+| Calculation | Slurm job | Wall time | Cores | Anvil SU |
+|---|---:|---:|---:|---:|
+| No-SOC SCF | 21193201 | 00:10:23 | 8 | 1.3848 |
+| No-SOC BAND | 21194532 | 00:01:25 | 8 | 0.1888 |
+| **Subtotal** | | | | **1.5736** |
+
+The cumulative documented J001 Anvil usage is now **2.9264 SU**,
+including the earlier convergence, k-point, E–a, SCF, and band
+calculations. The cancelled duplicate k-point submission is included
+because it consumed 0.1664 SU.
+
+### Baseline Result
+
+$$
+\boxed{\Delta E_{K,K'} = 0\ \text{eV}}
+$$
+
+within the precision of the extracted no-SOC eigenvalues.
