@@ -257,3 +257,36 @@ the total Anvil usage of 3.2952 SU across all attempts.
 The `jobsu` values are used as the authoritative scheduler accounting
 values. Parser-reported core-hours and `seff` CPU efficiency are
 recorded separately as performance metrics.
+
+## 13. SOC band-structure comparison update (10 October 2026)
+
+### No-SOC versus SOC band structures
+
+![No-SOC versus SOC band structures for monolayer WTe2](no_soc_vs_soc_band_structure.png)
+
+*Figure 13.1. Monolayer WTe₂ band structures along Γ–K–M–K′–Γ. Each panel is referenced to that calculation's own valence-band maximum (VBM = 0 eV); therefore, compare the band gaps and shapes rather than absolute vertical positions between panels. The displayed window focuses on near-gap states.*
+
+The no-SOC calculation gives a direct gap at K of **1.0491 eV**. Including spin–orbit coupling (SOC) reduces the direct K-point gap to **0.728625 eV**, a decrease of **0.320475 eV (30.5%)**.
+
+### SOC band structure and spin projections
+
+![SOC band structure of monolayer WTe2](soc_band_structure.png)
+
+*Figure 13.2. SOC band structure with the VBM set to 0 eV and the direct K-point gap annotated.*
+
+Along the sampled 120-point path, both the minimum direct gap and the indirect gap are **0.728625 eV**, with the VBM and CBM at K. This path-only result does not by itself establish the global fundamental gap over the full Brillouin zone.
+
+At K, the two highest occupied SOC bands (bands 25 and 26 in `EIGENVAL`) lie at −1.250995 eV and −0.762820 eV in the VASP band-energy reference, respectively, giving a separation of **0.488175 eV (488.175 meV)**. In the SOC `PROCAR`, their projected out-of-plane magnetization components are +0.660 and −0.666. At K′, the corresponding energies agree to the displayed precision and their projected components reverse to −0.660 and +0.666. These inspected near-gap states are consistent with the expected time-reversal relationship for isolated, nonmagnetic WTe₂. The SOC splitting within one valley is distinct from a K–K′ valley-energy splitting.
+
+**Outstanding caveat:** the K/K′ comparison gives differences of **4.182 meV** and **3.996 meV** for bands 47 and 48, respectively, while the other bands in the inspected 48-band comparison agree to within 0.006 meV. The origin of this high-energy discrepancy remains unresolved. Those bands are outside the near-gap window shown in the figures and do not change the reported band gap, but exact degeneracy across all 48 bands is not claimed.
+
+### Compute-accounting update (add to the existing J001 ledger)
+
+| Calculation | Slurm job | Status | Elapsed | Billed compute |
+|---|---:|---|---:|---:|
+| SOC SCF (`vasp_ncl`) | 21211498 | COMPLETED; EDIFF reached | 00:26:02 | 3.4712 SU |
+| SOC band structure (`vasp_ncl`) | 21211837 | COMPLETED; EDIFF reached | 00:10:22 | 1.3824 SU |
+| **SOC subtotal** | | | | **4.8536 SU** |
+
+The accepted no-SOC convergence and band workflow subtotal was **1.5400 SU**. The accepted J001 workflow subtotal (accepted no-SOC plus both SOC jobs) is therefore **6.3936 SU**. The cumulative total for all J001 jobs recorded so far, including cancelled, failed, and superseded attempts, is **8.1488 SU**. Keep both totals in the report: the first measures the accepted workflow; the second records all consumed compute.
+
