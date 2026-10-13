@@ -1,0 +1,7 @@
+configuration,U_eV,ion,element,s_muB,p_muB,d_muB,projected_total_muB
+FM_static,0,1,Mn,0.039,0.048,3.127,3.214
+FM_static,0,2,Mn,0.039,0.048,3.127,3.214
+FM_static,0,3,Se,0.001,-0.14,0.005,-0.133
+FM_static,0,4,Se,0.001,-0.14,0.005,-0.133
+FM_static,0,5,Se,0.001,-0.14,0.005,-0.133
+FM_static,0,6,Se,0.001,-0.14,0.005,-0.133
