@@ -31,3 +31,21 @@ authorized_keys
 __pycache__/
 *.pyc
 .venv/
+
+# VASP licensed potentials - never upload
+POTCAR
+POTCAR.*
+
+# Additional large VASP outputs
+LOCPOT
+AECCAR*
+ELFCAR
+PARCHG
+WAVEDER
+vaspout.h5
+
+# Local research backups - keep outside Git
+/backups/
+*.tar.gz
+*.tar.bz2
+*.tar.xz
