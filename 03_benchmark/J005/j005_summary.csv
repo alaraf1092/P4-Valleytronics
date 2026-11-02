@@ -1,0 +1,11 @@
+run,folder,layer,soc,U_Mn_eV,U_W_eV,a_A,V_vac_eV,E_F_eV,WF_eV,VB_K_vs_vac_eV,CB_K_vs_vac_eV,gap_K_eV,VB_SOC_split_K_eV,doublet_K_minus_EF_eV
+MnSe2,j005/MnSe2,MnSe2,no,3.90,,3.5597,1.8761,-3.5510,5.4271,,,,,0.184
+MnSe2_soc,j005/MnSe2_soc,MnSe2,yes,3.90,,3.5597,1.8762,-3.5454,5.4216,,,,,0.143/0.201
+MnSe2_a0,j005/MnSe2_a0,MnSe2,no,3.90,,3.640,1.7944,-3.6147,5.4091,,,,,0.250
+MnSe2_a0_SOC_U3p99_variant,j005_refined/MnSe2_a0,MnSe2,yes,3.99,,3.640,1.7966,-3.6324,5.4290,,,,,0.216/0.278
+WTe2_UW0,j005/WTe2_UW0,WTe2,no,,0.00,3.5597,2.8752,-1.4229,4.2981,-4.672,-3.601,1.071,,
+WTe2_UW,j005/WTe2_UW,WTe2,no,,2.87,3.5597,2.8912,-1.4641,4.3553,-4.624,-3.580,1.044,,
+WTe2_UW0_soc,j005/WTe2_UW0_soc,WTe2,yes,,0.00,3.5597,2.8724,-1.3097,4.1821,-4.395,-3.648,0.747,0.486,
+WTe2_UW_soc,j005/WTe2_UW_soc,WTe2,yes,,2.87,3.5597,2.8889,-1.0621,3.9510,-4.281,-3.672,0.609,0.616,
+WTe2_UW_soc_a0,j005/WTe2_UW_soc_a0,WTe2,yes,,2.87,3.540,2.9171,-1.0272,3.9443,-4.266,-3.598,0.668,0.610,
+WTe2_UW_soc_a0_repeat,j005_refined/WTe2_UW_soc_a0,WTe2,yes,,2.87,3.540,2.9171,-1.0645,3.9816,-4.266,-3.598,0.668,0.610,
