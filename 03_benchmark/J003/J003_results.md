@@ -221,4 +221,3 @@ threshold.
 - Preserve raw VASP outputs on Anvil. Track the report, summary CSV files,
   and plots in version control; avoid committing large raw OUTCAR/WAVECAR files
   unless explicitly required.
-
