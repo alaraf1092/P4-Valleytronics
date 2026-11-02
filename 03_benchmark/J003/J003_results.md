@@ -158,9 +158,9 @@ mechanism.
 
 The scan data and plots are saved in the working calculation directory:
 
-- `j003/dscan/dscan_results.csv`
-- `j003/dscan/energy_vs_distance.png`
-- `j003/dscan/magnetization_vs_distance.png`
+- `dscan/dscan_results.csv`
+- `dscan/energy_vs_distance.png`
+- `dscan/magnetization_vs_distance.png`
 
 ## 7. Convergence and quality checks
 
@@ -206,3 +206,18 @@ threshold.
 5. The total cell magnetization increases slightly as the layers separate.
 6. These structural and energetic calculations do not, by themselves,
    establish valley splitting or a valleytronics effect.
+
+## 9. Limitations and next steps
+
+- The very small energy difference between the 2.950 and 3.000 Angstrom
+  scan points warrants caution when interpreting the precise minimum.
+- The distance scan constrains the layer geometry and does not allow ionic
+  relaxation at each point.
+- The binding-energy result should be interpreted with attention to reference
+  geometry and computational consistency.
+- Before making claims about valley physics, calculate and inspect the
+  relevant band structures and valley-resolved quantities using a validated
+  electronic-structure workflow.
+- Preserve raw VASP outputs on Anvil. Track the report, summary CSV files,
+  and plots in version control; avoid committing large raw OUTCAR/WAVECAR files
+  unless explicitly required.
